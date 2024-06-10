@@ -29,3 +29,4 @@ export default {
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 # Typescript-react
+Ce projet a pour but de travailler avec typescript pour de bonne méthode et j'inclurais SASS que je n'ai pas utilisé depuis longtemps.

@@ -1,0 +1,28 @@
+@font-face {
+    font-family: 'Cursive';
+    src: url('../assets/fonts/Cursive standard Bold.ttf') format('truetype'),
+         url('../assets/fonts/Cursive standard .ttf') format('truetype');
+    font-weight: normal; 
+    font-style: normal; 
+}
+.contenaireHome{
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background-image: url(../assets/images/background.webp);
+    background-size: cover;
+    background-repeat: no-repeat;
+    justify-content: center;
+
+    h1 {
+        font-family: 'Cursive', sans-serif;
+        font-weight: bold;
+        color: rgba(255, 255, 255, 0.826);
+        font-size: calc(10vh + 10px);
+    }
+    img {
+        width: 254px;
+        height: 281px;
+    }
+}
+
