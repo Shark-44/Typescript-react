@@ -14,6 +14,7 @@ import './MusicPlayer.scss';
 
 interface MusicPlayerProps {
   url: string;
+  onStop: () => void; // ajout du callback onStop
 }
 
 const getVideoIdFromUrl = (url: string) => {
@@ -22,7 +23,7 @@ const getVideoIdFromUrl = (url: string) => {
   return id;
 };
 
-const MusicPlayer: React.FC<MusicPlayerProps> = ({ url }) => {
+const MusicPlayer: React.FC<MusicPlayerProps> = ({ url, onStop }) => {
   const videoId = getVideoIdFromUrl(url);
   const { playerDetails, actions } = useYoutube({
     id: videoId ?? '',
@@ -42,11 +43,13 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ url }) => {
     return <IoVolumeHigh />;
   };
 
-
+  const handleStopVideo = () => {
+    actions.stopVideo();
+    onStop();
+  };
 
   return (
     <div className="music-player">
-      
       <div className="video-title">{playerDetails.title}</div>
       <div className="player-controls">
         <button onClick={actions.previousVideo}>
@@ -61,7 +64,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ url }) => {
             <IoPlay />
           </button>
         )}
-        <button onClick={actions.stopVideo}>
+        <button onClick={handleStopVideo}>
           <IoStop />
         </button>
         <button onClick={actions.nextVideo}>
@@ -83,3 +86,4 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ url }) => {
 };
 
 export default MusicPlayer;
+
