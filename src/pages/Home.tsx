@@ -58,24 +58,45 @@ const cardsData: CardData[] = [
 
 const Home: React.FC = () => {
   const [selectedUrl, setSelectedUrl] = useState<string>('');
+  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
+
+  const handleSelectCard = (url: string, index: number) => {
+    setSelectedUrl(url);
+    setCurrentIndex(index);
+  };
+
+  const handleNextVideo = () => {
+    if (currentIndex !== null) {
+      const nextIndex = (currentIndex + 1) % cardsData.length;
+      setSelectedUrl(cardsData[nextIndex].url);
+      setCurrentIndex(nextIndex);
+    }
+  };
+
+  const handlePreviousVideo = () => {
+    if (currentIndex !== null) {
+      const prevIndex = (currentIndex - 1 + cardsData.length) % cardsData.length;
+      setSelectedUrl(cardsData[prevIndex].url);
+      setCurrentIndex(prevIndex);
+    }
+  };
 
   return (
     <div className="contenaireHome">
       <div className="MusicPlayerWrapper">
-      <div className="title">
-        <h1>Les génériques de récré</h1>
-        <img src={LogoA2} alt="logo" />
-
+        <div className="title">
+          <h1>Les génériques de récré</h1>
+          <img src={LogoA2} alt="logo" />
+        </div>
+        {selectedUrl && (
+          <MusicPlayer 
+            url={selectedUrl} 
+            onStop={() => setSelectedUrl('')}
+            onNext={handleNextVideo}
+            onPrevious={handlePreviousVideo}
+          />
+        )}
       </div>
-      
-      {selectedUrl && (
-        <MusicPlayer 
-          url={selectedUrl} 
-          onStop={() => setSelectedUrl('')} 
-        />
-      )}
-      </div>
-
       <div className="ContenairCard">
         {cardsData.map((card, index) => (
           <Card
@@ -84,12 +105,10 @@ const Home: React.FC = () => {
             title={card.title}
             description={card.description}
             url={card.url}
-            onClick={() => setSelectedUrl(card.url)}
+            onClick={() => handleSelectCard(card.url, index)}
           />
         ))}
       </div>
-
-
     </div>
   );
 };
