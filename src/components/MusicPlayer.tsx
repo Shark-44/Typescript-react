@@ -14,20 +14,24 @@ import './MusicPlayer.scss';
 
 interface MusicPlayerProps {
   url: string;
-  onStop: () => void; // ajout du callback onStop
+  onStop: () => void;
+  onNext: () => void;
+  onPrevious: () => void;
 }
 
-const getVideoIdFromUrl = (url: string) => {
+const getVideoIdFromUrl = (url: string): string | null => {
   const urlObj = new URL(url);
-  const id = urlObj.searchParams.get('v');
-  return id;
+  return urlObj.searchParams.get('v');
 };
 
-const MusicPlayer: React.FC<MusicPlayerProps> = ({ url, onStop }) => {
+const MusicPlayer: React.FC<MusicPlayerProps> = ({ url, onStop, onNext, onPrevious }) => {
   const videoId = getVideoIdFromUrl(url);
   const { playerDetails, actions } = useYoutube({
     id: videoId ?? '',
     type: 'video',
+    options: {
+      autoplay: true, 
+    },
   });
 
   const renderVolumeIcon = () => {
@@ -43,16 +47,16 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ url, onStop }) => {
     return <IoVolumeHigh />;
   };
 
-  const handleStopVideo = () => {
+  const handleStopMusic = () => {
     actions.stopVideo();
     onStop();
   };
 
   return (
     <div className="music-player">
-      <div className="video-title">{playerDetails.title}</div>
+      <div className="audio-title">{playerDetails.title}</div>
       <div className="player-controls">
-        <button onClick={actions.previousVideo}>
+        <button onClick={onPrevious}>
           <IoPlaySkipBack />
         </button>
         {playerDetails.state === PlayerState.PLAYING ? (
@@ -64,10 +68,10 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ url, onStop }) => {
             <IoPlay />
           </button>
         )}
-        <button onClick={handleStopVideo}>
+        <button onClick={handleStopMusic}>
           <IoStop />
         </button>
-        <button onClick={actions.nextVideo}>
+        <button onClick={onNext}>
           <IoPlaySkipForward />
         </button>
         <div className="volume-control">
@@ -85,5 +89,4 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ url, onStop }) => {
   );
 };
 
-export default MusicPlayer;
-
+export default MusicPlayer
