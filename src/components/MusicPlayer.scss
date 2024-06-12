@@ -43,3 +43,10 @@
   .player-controls .volume-control svg {
     margin-right: 8px;
   }
+  .player-time {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+  }
