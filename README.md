@@ -30,3 +30,11 @@ export default {
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 # Typescript-react
 Ce projet a pour but de travailler avec typescript pour de bonne méthode et j'inclurais SASS que je n'ai pas utilisé depuis longtemps.
+
+# Lien sur la librairie du lecteur
+
+https://www.jsdelivr.com/package/npm/react-youtube-music-player
+
+# retouche css en responsive 
+
+https://docs.inspect.dev/introduction 
