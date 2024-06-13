@@ -58,4 +58,23 @@
       margin-top: 20px; 
     }
   }
-  
+  @media screen and (max-width: 900px) {
+    .contenaireHome {
+      .MusicPlayerWrapper {
+       top: 0;
+       .title {
+        margin: 0;
+        padding: 0;
+        justify-content: space-around;
+        .h1 {
+          margin: 10px 0 0 10px;
+        }
+       }
+      }
+
+    }
+    .ContenairCard {
+      gap: 20px;
+    }
+
+  }
