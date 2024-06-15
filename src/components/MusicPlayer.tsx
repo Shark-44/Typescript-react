@@ -23,6 +23,11 @@ interface MusicPlayerProps {
   onPrevious: () => void;
 }
 
+const isSafari = () => {
+  const ua = navigator.userAgent.toLowerCase();
+  return ua.indexOf('safari') > -1 && ua.indexOf('chrome') < 0;
+};
+
 const getVideoIdFromUrl = (url: string): string | null => {
   const urlObj = new URL(url);
   return urlObj.searchParams.get('v');
@@ -40,7 +45,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ url, onStop, onNext, onPrevio
     id: videoId ?? '',
     type: 'video',
     options: {
-      autoplay: true,
+      autoplay: !isSafari(),
     },
   });
 
@@ -102,7 +107,16 @@ useEffect(() => {
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [playerDetails.state]);
 
+useEffect(() => {
+  if (isSafari() && playerDetails.state === PlayerState.UNSTARTED) {
+    actions.setVolume(0);
+    actions.playVideo();
+  }
 
+  if (isSafari() && playerDetails.state === PlayerState.PLAYING) {
+    actions.setVolume(100);
+  }
+}, [actions, playerDetails.state]);
 
 
 
