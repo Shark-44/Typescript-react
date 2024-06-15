@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { PlayerState, useYoutube } from 'react-youtube-music-player';
 import {
   IoPause,
@@ -14,6 +14,7 @@ import {
   IoReload,
   IoRepeatSharp
 } from 'react-icons/io5';
+import ProgressBar from './ProgressBar';
 import './MusicPlayer.scss';
 
 interface MusicPlayerProps {
@@ -69,31 +70,26 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ url, onStop, onNext, onPrevio
   // Afficher la durée
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [isLooping, setIsLooping] = useState<boolean>(false); // lecture en boucle
+  const [isLooping, setIsLooping] = useState<boolean>(false); 
+  const intervalRef = useRef<number | undefined>(undefined);
 
-  // changements dans playerDetails
   useEffect(() => {
     setCurrentTime(playerDetails.currentTime);
     setIsPlaying(playerDetails.state === PlayerState.PLAYING);
-  }, [playerDetails]); //
+  }, [playerDetails.state, playerDetails.currentTime]);
 
    // Actualisation currentTime
-  useEffect(() => {
-    let interval: number | undefined = undefined;
- 
+   useEffect(() => {
     if (isPlaying) {
-      interval = setInterval(() => {
-        setCurrentTime((prevTime) => prevTime + 1); 
-      }, 1000); 
+      intervalRef.current = window.setInterval(() => {
+        setCurrentTime((prevTime) => prevTime + 1);
+      }, 1000);
     } else {
-      clearInterval(interval); 
+      clearInterval(intervalRef.current);
     }
 
-    // Nettoyage de l'effet
     return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
+      clearInterval(intervalRef.current);
     };
   }, [isPlaying]);
 // pour lecture en boucle
@@ -161,6 +157,10 @@ useEffect(() => {
         /
         <span>{formatTime(playerDetails.duration)}</span>
       </div>
+      <ProgressBar
+        bgcolor="#0075ff"
+        completed={(currentTime / playerDetails.duration) * 100} // Calcul de la progression en pourcentage
+      />
     </div>
   );
 };
