@@ -14,6 +14,7 @@ import {
   IoReload,
   IoRepeatSharp
 } from 'react-icons/io5';
+import ProgressBar from './ProgressBar';
 import './MusicPlayer.scss';
 
 interface MusicPlayerProps {
@@ -156,6 +157,10 @@ useEffect(() => {
         /
         <span>{formatTime(playerDetails.duration)}</span>
       </div>
+      <ProgressBar
+        bgcolor="#0075ff"
+        completed={(currentTime / playerDetails.duration) * 100} // Calcul de la progression en pourcentage
+      />
     </div>
   );
 };
